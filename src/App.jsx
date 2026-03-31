@@ -18,7 +18,7 @@ function App() {
      
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container fluid >
-          <Navbar.Brand href="#">MyApp</Navbar.Brand>
+          <Navbar.Brand href="#">My App</Navbar.Brand>
 
           <Navbar.Toggle aria-controls="nav" />
           <Navbar.Collapse id="nav">
