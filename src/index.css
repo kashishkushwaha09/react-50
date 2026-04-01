@@ -1,0 +1,26 @@
+.bg-section {
+  height: 100vh;
+  background-image: url("/bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center; /* vertical center */
+}
+
+.form-box {
+  background: rgba(192, 190, 190, 0.25);
+  backdrop-filter: blur(8px);       
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  margin: auto;
+}
+.gradient-card {
+ background: linear-gradient(
+  135deg,
+  #fff,
+  rgba(192, 90, 252, 0.8)
+);
+  border: none;
+  border-radius: 8px;
+}
