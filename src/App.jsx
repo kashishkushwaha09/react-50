@@ -2,13 +2,16 @@ import { useState } from 'react'
 
 import Project from './Project';
 import Products from './pages/Products';
+import Layout from './components/Layout';
 
 function App() {
   
 
   return (
     <>
-    <Products/>
+     <Layout >
+      <Products />
+    </Layout>
      </>
   )
 }
