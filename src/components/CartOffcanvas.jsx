@@ -5,9 +5,11 @@ import {
   Image,
   Button,
 } from "react-bootstrap";
+import { useCart } from "../context/CartContext";
 
-const CartOffcanvas = ({ show, handleClose, cartItems }) => {
-    const [cart,setCart]=useState(cartItems);
+const CartOffcanvas = ({ show, handleClose }) => {
+    const {cartItems,removeFromCart}=useCart();
+    
   const totalQuantity = cartItems.reduce(
     (acc, item) => acc + item.quantity,
     0
@@ -17,9 +19,9 @@ const CartOffcanvas = ({ show, handleClose, cartItems }) => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const handleRemove=(title)=>{
-     setCart((prev)=>prev.filter((item)=>item.title!== title));
-  }
+//   const handleRemove=(title)=>{
+//      setCart((prev)=>prev.filter((item)=>item.title!== title));
+//   }
 
   return (
     <Offcanvas show={show} onHide={handleClose} placement="end">
@@ -30,12 +32,12 @@ const CartOffcanvas = ({ show, handleClose, cartItems }) => {
       </Offcanvas.Header>
 
       <Offcanvas.Body>
-        {cart.length === 0 ? (
+        {cartItems.length === 0 ? (
           <p>Your cart is empty</p>
         ) : (
           <>
             <ListGroup variant="flush">
-              {cart.map((item) => (
+              {cartItems.map((item) => (
                 <ListGroup.Item key={item.title}>
                   <div className="d-flex align-items-center gap-3">
                     
@@ -62,7 +64,7 @@ const CartOffcanvas = ({ show, handleClose, cartItems }) => {
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() => handleRemove(item.title)}
+                      onClick={() => removeFromCart(item)}
                     >
                       Remove
                     </Button>

@@ -4,6 +4,7 @@ import ProductCard from "../components/ProductCard";
 import { productsArr } from "../data/products";
 
 const Products = () => {
+      
   return (
     <Container className="py-5">
       <h2 className="text-center mb-4 fw-bold">Our Products</h2>
