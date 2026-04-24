@@ -5,6 +5,7 @@ import Products from './pages/Products';
 import Layout from './components/Layout';
 import { CartProvider } from './context/CartContext';
 import About from './pages/About';
+import Home from './pages/Home';
 
 function App() {
   
@@ -15,8 +16,8 @@ function App() {
        <Layout >
      
         <Routes>
-            <Route path="/" element={<Products />} />
-            {/* <Route path="/products" element={<Products />} /> */}
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
             <Route path="/about" element={<About />} />
           </Routes>
     </Layout>

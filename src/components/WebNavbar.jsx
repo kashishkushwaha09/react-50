@@ -43,13 +43,21 @@ const WebNavbar = () => {
           <Navbar.Brand>MyStore</Navbar.Brand>
 
           <Nav className="ms-auto">
-               <NavLink 
+              <NavLink 
         to="/" 
         className={({ isActive }) =>
           isActive ? "nav-link text-warning fw-bold" : "nav-link text-light"
         }
       >
         Home
+      </NavLink>
+               <NavLink 
+        to="/products" 
+        className={({ isActive }) =>
+          isActive ? "nav-link text-warning fw-bold" : "nav-link text-light"
+        }
+      >
+        Store
       </NavLink>
 
       <NavLink 
