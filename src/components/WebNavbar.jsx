@@ -14,6 +14,7 @@ import {
 import { cartElements } from "../data/cartItems";
 import CartOffcanvas from "./CartOffcanvas";
 import { useCart } from "../context/CartContext";
+import { NavLink } from "react-router-dom";
 
 const WebNavbar = () => {
   const {cartItems}=useCart();
@@ -42,7 +43,24 @@ const WebNavbar = () => {
           <Navbar.Brand>MyStore</Navbar.Brand>
 
           <Nav className="ms-auto">
-            <Button variant="outline-light" onClick={handleShow}>
+               <NavLink 
+        to="/" 
+        className={({ isActive }) =>
+          isActive ? "nav-link text-warning fw-bold" : "nav-link text-light"
+        }
+      >
+        Home
+      </NavLink>
+
+      <NavLink 
+        to="/about" 
+        className={({ isActive }) =>
+          isActive ? "nav-link text-warning fw-bold" : "nav-link text-light"
+        }
+      >
+        About
+      </NavLink>
+            <Button variant="outline-light" onClick={handleShow} className="ms-5">
               Cart{" "}
               <Badge bg="light" text="dark">
                 {totalQuantity}
