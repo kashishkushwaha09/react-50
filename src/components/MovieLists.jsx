@@ -2,9 +2,10 @@
 
 import React, { memo, useCallback, useEffect, useState } from "react";
 import AddMovie from "./AddMovie";
+import useMovies from "../hooks/useMovies";
 
 
-const MovieCard = memo(({ title, openingText, releaseDate }) => {
+const MovieCard = memo(({ id,title, openingText, releaseDate, onDelete }) => {
     return (
         <div className="col-md-4 mb-4">
             <div className="card h-100 text-white" style={{ backgroundColor: "#46067e" }}>
@@ -14,6 +15,12 @@ const MovieCard = memo(({ title, openingText, releaseDate }) => {
                 </div>
                 <div className="card-footer">
                     <small>Release Date: {releaseDate}</small>
+                     <button
+            className="btn btn-sm btn-danger"
+            onClick={() => onDelete(id)}
+          >
+            Delete
+          </button>
                 </div>
             </div>
         </div>
@@ -21,81 +28,35 @@ const MovieCard = memo(({ title, openingText, releaseDate }) => {
 })
 
 const MovieLists = () => {
-    const [movies, setMovies] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [cancel, setCancel] = useState(false);
-
-    const fetchMovieHandler=async()=>{
-        setLoading(true);
-        setError(null);
-        setCancel(false);
-        try {
-            const response = await fetch("https://swapi.info/api/films");
-            if (!response.ok) {
-                throw new Error("Something went wrong...Retrying");
-            }
-            const data = await response.json();
-            const transformedMovies = data.map((movieData) => ({
-                id: movieData.episode_id,
-                title: movieData.title,
-                openingText: movieData.opening_crawl,
-                releaseDate: movieData.release_date,
-            }));
-            setMovies(transformedMovies);
-        } catch (err) {
-            setError(err.message || "Failed to fetch");
-
-        }
-        setLoading(false);
-    }
-    const addMovieHandler=useCallback((movieData) => {
-        console.log("movieData",movieData)
-    setMovies((prev) => [...prev, movieData]);
-  }, []);
-
-    useEffect(() => {
-        if (!error) return;
-        if(cancel){
-            setError(null);
-            return;
-        }
-
-        let timeOut = setTimeout(() => {
-            setMovies([]);
-            fetchMovieHandler();
-        }, 5000);
-        return () => clearTimeout(timeOut);
-
-    }, [error,cancel]);
-    useEffect(()=>{
-      fetchMovieHandler();
-    },[])
+     const { movies, loading, error, addMovie ,deleteMovie} = useMovies();
+    
     return (
         <div className="container mt-4">
             <section>
-                <AddMovie onAddMovie={addMovieHandler}/>
+                <AddMovie onAddMovie={addMovie} onDelete={deleteMovie}/>
             </section>
-            <section className="text-center mb-4">
+            {/* <section className="text-center mb-4">
                 {error ? <button className="btn btn-dark" onClick={()=>setCancel(true)}>
                     Cancel
                 </button> : <button className="btn btn-dark" onClick={fetchMovieHandler}>
                     Fetch Movies
                 </button>}
-            </section>
+            </section> */}
 
             <section>
                 {loading && <p className="text-center">Loading...</p>}
                 {error && <p className="text-danger text-center">{error}</p>}
 
                 {!loading && !error && movies.length > 0 && (
-                    <div className="row">
+                    <div className="row mt-3">
                         {movies.map((movie) => (
                             <MovieCard
                                 key={movie.id}
+                                id={movie.id}
                                 title={movie.title}
                                 openingText={movie.openingText}
                                 releaseDate={movie.releaseDate}
+                                onDelete={deleteMovie}
                             />
                         ))}
                     </div>
