@@ -1,6 +1,7 @@
 
 
 import React, { memo, useCallback, useEffect, useState } from "react";
+import AddMovie from "./AddMovie";
 
 
 const MovieCard = memo(({ title, openingText, releaseDate }) => {
@@ -48,6 +49,11 @@ const MovieLists = () => {
         }
         setLoading(false);
     }
+    const addMovieHandler=useCallback((movieData) => {
+        console.log("movieData",movieData)
+    setMovies((prev) => [...prev, movieData]);
+  }, []);
+
     useEffect(() => {
         if (!error) return;
         if(cancel){
@@ -67,6 +73,9 @@ const MovieLists = () => {
     },[])
     return (
         <div className="container mt-4">
+            <section>
+                <AddMovie onAddMovie={addMovieHandler}/>
+            </section>
             <section className="text-center mb-4">
                 {error ? <button className="btn btn-dark" onClick={()=>setCancel(true)}>
                     Cancel
