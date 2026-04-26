@@ -68,6 +68,14 @@ const WebNavbar = () => {
       >
         About
       </NavLink>
+      <NavLink 
+        to="/contact" 
+        className={({ isActive }) =>
+          isActive ? "nav-link text-warning fw-bold" : "nav-link text-light"
+        }
+      >
+        Contact
+      </NavLink>
             <Button variant="outline-light" onClick={handleShow} className="ms-5">
               Cart{" "}
               <Badge bg="light" text="dark">

@@ -7,6 +7,8 @@ import { CartProvider } from './context/CartContext';
 import About from './pages/About';
 import Home from './pages/Home';
 import MovieLists from './components/MovieLists';
+import Contact from './pages/Contact';
+
 
 function App() {
   
@@ -17,9 +19,10 @@ function App() {
        <Layout >
      
         <Routes>
-            <Route path="/" element={<MovieLists />} />
+            <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/about" element={<About />} />
+            
+            <Route path="/contact" element={<Contact />} />
           </Routes>
     </Layout>
     </CartProvider>
