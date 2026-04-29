@@ -8,6 +8,7 @@ import About from './pages/About';
 import Home from './pages/Home';
 import MovieLists from './components/MovieLists';
 import Contact from './pages/Contact';
+import ProductDetails from './pages/ProductDetails';
 
 
 function App() {
@@ -21,8 +22,9 @@ function App() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
-            
+            <Route path="/products/:productId" element={<ProductDetails />} />
             <Route path="/contact" element={<Contact />} />
+             
           </Routes>
     </Layout>
     </CartProvider>
