@@ -41,11 +41,43 @@ const getErrorMessage = (code) => {
       return "Invalid login credentials";
     case "WEAK_PASSWORD":
       return "Password should be at least 6 characters";
+        case "TOKEN_EXPIRED":
+      return "Session expired, please login again";
+    case "INVALID_ID_TOKEN":
+      return "Invalid session, please login again";
     default:
       return "Something went wrong";
   }
 };
+export const changePassword = async (idToken, newPassword) => {
+  try {
+    const res = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idToken, 
+          password: newPassword,
+          returnSecureToken: true,
+        }),
+      }
+    );
 
+    const data = await res.json();
+
+    if (!res.ok) {
+      const message = getErrorMessage(data.error.message);
+      throw new Error(message);
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const signupUser = (email, password) => {
   return request("signUp", { email, password });

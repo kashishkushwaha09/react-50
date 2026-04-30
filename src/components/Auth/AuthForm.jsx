@@ -3,6 +3,7 @@ import { useState, useRef, useContext } from 'react';
 import classes from './AuthForm.module.css';
 import { loginUser, signupUser } from '../../services/authService';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,7 +12,7 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
-
+const navigate = useNavigate();
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
     setError(null);
@@ -37,9 +38,11 @@ const AuthForm = () => {
       if (isLogin) {
        
         data = await loginUser(enteredEmail, enteredPassword);
+          navigate("/profile");
       } else {
        
         data = await signupUser(enteredEmail, enteredPassword);
+          navigate("/profile");
       }
 
       console.log("Auth Success:", data);
