@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 
 import classes from './AuthForm.module.css';
+import { loginUser, signupUser } from '../../services/authService';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,14 +15,14 @@ const AuthForm = () => {
     setError(null);
   };
 
-  const submitHandler = async (event) => {
+    const submitHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value.trim();
     const enteredPassword = passwordInputRef.current.value.trim();
 
     if (!enteredEmail || !enteredPassword) {
-      setError('Please enter both email and password.');
+      setError("Please enter both email and password.");
       return;
     }
 
@@ -29,17 +30,25 @@ const AuthForm = () => {
     setIsLoading(true);
 
     try {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (!isLogin && enteredPassword.length < 7) {
-            reject(new Error('Signup failed. Password must be at least 7 characters.'));
-          } else if (!isLogin && !enteredEmail.includes('@')) {
-            reject(new Error('Signup failed. Please enter a valid email address.'));
-          } else {
-            resolve();
-          }
-        }, 1500);
-      });
+      let data;
+
+      if (isLogin) {
+       
+        data = await loginUser(enteredEmail, enteredPassword);
+      } else {
+       
+        data = await signupUser(enteredEmail, enteredPassword);
+      }
+
+      console.log("Auth Success:", data);
+
+     
+      localStorage.setItem("token", data.idToken);
+
+    
+      emailInputRef.current.value = "";
+      passwordInputRef.current.value = "";
+
     } catch (err) {
       setError(err.message);
     } finally {
