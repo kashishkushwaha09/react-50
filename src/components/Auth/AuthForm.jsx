@@ -38,17 +38,17 @@ const navigate = useNavigate();
       if (isLogin) {
        
         data = await loginUser(enteredEmail, enteredPassword);
-          navigate("/profile");
+         
       } else {
        
         data = await signupUser(enteredEmail, enteredPassword);
-          navigate("/profile");
+          
       }
 
       console.log("Auth Success:", data);
 
        authCtx.login(data.idToken);
-     
+      navigate("/profile");
 
     
       emailInputRef.current.value = "";

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { useContext, useState } from 'react'
+import { BrowserRouter,Routes,Route, Navigate } from 'react-router-dom';
 // import Project from './Project';
 // import Products from './pages/Products';
 // import Layout from './components/Layout';
@@ -15,20 +15,14 @@ import Layout from './components/Layout/Layout';
 import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
-import { AuthProvider } from './context/AuthContext';
+import {  AuthProvider } from './context/AuthContext';
+import AppRoutes from './components/AppRoutes';
 function App() {
-  
-
+ 
   return (
     <BrowserRouter>
     <AuthProvider>
-    <Layout>
-  <Routes>
-    <Route path="/" element={<HomePage />} />
-    <Route path="/auth" element={<AuthPage />} />
-    <Route path="/profile" element={<UserProfile />} />
-  </Routes>
-</Layout>
+   <AppRoutes/>
 </AuthProvider>
 </BrowserRouter>
     // <BrowserRouter>
