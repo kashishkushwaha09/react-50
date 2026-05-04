@@ -47,7 +47,7 @@ const navigate = useNavigate();
 
       console.log("Auth Success:", data);
 
-       authCtx.login(data.idToken);
+       authCtx.login(data.idToken,enteredEmail);
       navigate("/");
 
     

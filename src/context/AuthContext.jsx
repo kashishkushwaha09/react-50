@@ -4,7 +4,7 @@ import { validateToken } from "../services/authService";
 export const AuthContext = createContext({
   token: "",
   isAuthenticated: false,
-  login: (token) => { },
+  login: (token,email) => { },
   logout: () => { },
 });
 
@@ -52,9 +52,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
 
-  const login = (token) => {
+  const login = (token,email) => {
     setToken(token);
     localStorage.setItem("token", token);
+    localStorage.setItem("email", email);
 
     // const expirationTime = new Date().getTime()+(3600 * 1000);
     // localStorage.setItem("expirationTime", expirationTime);
@@ -64,6 +65,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
+     localStorage.removeItem("email");
     // localStorage.removeItem("expirationTime");
   };
 
