@@ -13,36 +13,52 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
-    const checkAuth=async()=>{
-        const storedToken = localStorage.getItem("token");
+     const storedToken = localStorage.getItem("token");
 console.log("storedToken ",storedToken)
 if(storedToken){
   console.log("storedToken valid")
 }
+const expirationTime=localStorage.getItem("expirationTime");
+ const currentTime=new Date().getTime();
+
+  console.log("expirationTime:", expirationTime);
+  console.log("currentTime:", currentTime);
+ if(currentTime>expirationTime){
+  logout();
+  return;
+ }
+ setToken(storedToken);
+    // const checkAuth=async()=>{
+       
     //        if (!storedToken) {
     //   logout();
     //   return;
     // } 
  
-      const isValid=await validateToken(storedToken);
-     if(isValid){
-  setToken(storedToken);
-     }else{
-      logout();
-     }
-    }
+      // const isValid=await validateToken(storedToken);
+    //  if(isValid){
+  
+    //  }else{
+    //   logout();
+    //  }
+    // }
  
-   checkAuth();     
+  //  checkAuth();     
   }, []);
+
 
   const login = (token) => {
     setToken(token);
     localStorage.setItem("token", token);
+
+    const expirationTime = new Date().getTime()+(10 * 1000);
+    localStorage.setItem("expirationTime", expirationTime);
   };
 
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
   };
 
   const contextValue = {
