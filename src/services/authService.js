@@ -87,3 +87,32 @@ export const signupUser = (email, password) => {
 export const loginUser = (email, password) => {
   return request("signInWithPassword", { email, password });
 };
+
+export const validateToken=async(token)=>{
+ 
+  try {
+     const response= await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`,
+     {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idToken: token,
+       
+      }),
+     }
+     );
+     const data=await response.json();
+     if(!response.ok){
+      
+      throw new Error(data.error.message);
+     }
+     return true;
+  } catch (error) {
+    console.log("Token invalid:", error.message);
+return false;
+  }
+}
+
+

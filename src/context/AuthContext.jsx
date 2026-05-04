@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { validateToken } from "../services/authService";
 
 export const AuthContext = createContext({
   token: "",
@@ -12,10 +13,26 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
+    const checkAuth=async()=>{
+        const storedToken = localStorage.getItem("token");
+console.log("storedToken ",storedToken)
+if(storedToken){
+  console.log("storedToken valid")
+}
+    //        if (!storedToken) {
+    //   logout();
+    //   return;
+    // } 
+ 
+      const isValid=await validateToken(storedToken);
+     if(isValid){
+  setToken(storedToken);
+     }else{
+      logout();
+     }
     }
+ 
+   checkAuth();     
   }, []);
 
   const login = (token) => {
