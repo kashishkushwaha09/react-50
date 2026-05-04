@@ -4,8 +4,8 @@ import { validateToken } from "../services/authService";
 export const AuthContext = createContext({
   token: "",
   isAuthenticated: false,
-  login: (token) => {},
-  logout: () => {},
+  login: (token) => { },
+  logout: () => { },
 });
 
 export const AuthProvider = ({ children }) => {
@@ -13,37 +13,42 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
-     const storedToken = localStorage.getItem("token");
-console.log("storedToken ",storedToken)
-if(storedToken){
-  console.log("storedToken valid")
-}
-const expirationTime=localStorage.getItem("expirationTime");
- const currentTime=new Date().getTime();
 
-  console.log("expirationTime:", expirationTime);
-  console.log("currentTime:", currentTime);
- if(currentTime>expirationTime){
-  logout();
-  return;
- }
- setToken(storedToken);
-    // const checkAuth=async()=>{
-       
-    //        if (!storedToken) {
+    // const expirationTime=localStorage.getItem("expirationTime");
+    //  const currentTime=new Date().getTime();
+
+    //   console.log("expirationTime:", expirationTime);
+    //   console.log("currentTime:", currentTime);
+    //  if(currentTime>expirationTime){
     //   logout();
     //   return;
-    // } 
- 
-      // const isValid=await validateToken(storedToken);
-    //  if(isValid){
-  
-    //  }else{
-    //   logout();
     //  }
-    // }
- 
-  //  checkAuth();     
+
+
+
+    const checkAuth = async () => {
+      const storedToken = localStorage.getItem("token");
+
+      console.log("storedToken:", storedToken);
+
+      if (!storedToken) {
+        console.log("No token - logout");
+        logout();
+        return;
+      }
+
+      const isValid = await validateToken(storedToken);
+
+      if (isValid) {
+        console.log("Token valid ");
+        setToken(storedToken);
+      } else {
+        console.log("Token invalid logout");
+        logout();
+      }
+    };
+
+    checkAuth();
   }, []);
 
 
@@ -51,14 +56,15 @@ const expirationTime=localStorage.getItem("expirationTime");
     setToken(token);
     localStorage.setItem("token", token);
 
-    const expirationTime = new Date().getTime()+(10 * 1000);
-    localStorage.setItem("expirationTime", expirationTime);
+    // const expirationTime = new Date().getTime()+(3600 * 1000);
+    // localStorage.setItem("expirationTime", expirationTime);
   };
+
 
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
-    localStorage.removeItem("expirationTime");
+    // localStorage.removeItem("expirationTime");
   };
 
   const contextValue = {

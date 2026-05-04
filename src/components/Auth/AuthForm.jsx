@@ -48,7 +48,7 @@ const navigate = useNavigate();
       console.log("Auth Success:", data);
 
        authCtx.login(data.idToken);
-      navigate("/profile");
+      navigate("/");
 
     
       emailInputRef.current.value = "";
